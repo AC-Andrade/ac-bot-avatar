@@ -1,6 +1,6 @@
 {
   "name": "@acandrade/ac-bot-avatar",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "private": true,
   "packageManager": "yarn@1.22.22",
   "workspaces": [

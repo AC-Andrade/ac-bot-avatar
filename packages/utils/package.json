@@ -1,6 +1,14 @@
 {
   "name": "@acandrade/ac-bot-avatar-utils",
-  "version": "1.0.0",
+  "version": "1.0.3",
+  "description": "Helper functions for deterministic AC Bot Avatar generation",
+  "keywords": [
+    "generator",
+    "hash",
+    "deterministic",
+    "avatar",
+    "utils"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

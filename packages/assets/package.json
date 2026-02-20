@@ -1,6 +1,14 @@
 {
     "name": "@acandrade/ac-bot-avatar-assets",
-    "version": "1.0.0",
+    "version": "1.0.3",
+    "description": "SVG components and asset maps for AC Bot Avatar",
+    "keywords": [
+        "svg",
+        "react",
+        "avatar",
+        "assets",
+        "icons"
+    ],
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {

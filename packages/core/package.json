@@ -1,6 +1,13 @@
 {
     "name": "@acandrade/ac-bot-avatar-core",
-    "version": "1.0.0",
+    "version": "1.0.3",
+    "description": "Core types and constants for AC Bot Avatar",
+    "keywords": [
+        "typescript",
+        "avatar",
+        "bot",
+        "types"
+    ],
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {

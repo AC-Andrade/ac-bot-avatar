@@ -1,6 +1,14 @@
 {
   "name": "@acandrade/ac-bot-avatar-react",
-  "version": "1.0.0",
+  "version": "1.0.3",
+  "description": "Official React components for AC Bot Avatars",
+  "keywords": [
+    "react",
+    "component",
+    "avatar",
+    "profile-image",
+    "bot"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

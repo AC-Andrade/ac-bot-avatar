@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
-import { eyes, mouths } from '@ac-andrade/ac-bot-avatar-assets'
-import type { ACBotFaceProps, Face } from '@ac-andrade/ac-bot-avatar-core'
+import { eyes, mouths } from '@acandrade/ac-bot-avatar-assets'
+import type { ACBotFaceProps, Face } from '@acandrade/ac-bot-avatar-core'
 
 const legacyFaceMap = {
   cool: { eye: 'sunglasses', mouth: 'side_smile' },

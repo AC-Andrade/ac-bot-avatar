@@ -1,4 +1,4 @@
-import type { EyeType } from '@ac-andrade/ac-bot-avatar-core';
+import type { EyeType } from '@acandrade/ac-bot-avatar-core';
 import React from 'react';
 import { BlinkEye } from './blink';
 import { ChordsEye } from './chords';

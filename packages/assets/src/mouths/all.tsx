@@ -1,4 +1,4 @@
-import type { MouthType } from '@ac-andrade/ac-bot-avatar-core';
+import type { MouthType } from '@acandrade/ac-bot-avatar-core';
 import React from 'react';
 import { BigSmileMouth } from './big_smile';
 import { FlatMouth } from './flat';

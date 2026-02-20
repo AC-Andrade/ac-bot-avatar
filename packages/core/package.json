@@ -1,0 +1,19 @@
+{
+    "name": "@acandrade/ac-bot-avatar-core",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "test": "vitest run --passWithNoTests"
+    },
+    "files": [
+        "dist"
+    ],
+    "dependencies": {
+        "@acandrade/ac-bot-avatar-utils": "*"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

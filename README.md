@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="./preview.png" width="128" alt="ac-bot-avatar icon">
-</p>
-
 # ac-bot-avatar
 
 [![GitHub](https://img.shields.io/badge/GitHub-AC--Andrade%2Fac--bot--avatar-181717?logo=github)](https://github.com/AC-Andrade/ac-bot-avatar)

@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="./preview.png" width="64" alt="ac-bot-avatar icon">
-</p>
-
 # Changelog
 
 All notable changes to this project will be documented in this file.

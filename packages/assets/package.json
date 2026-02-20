@@ -1,0 +1,19 @@
+{
+    "name": "@acandrade/ac-bot-avatar-assets",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "test": "vitest run --passWithNoTests"
+    },
+    "files": [
+        "dist"
+    ],
+    "peerDependencies": {
+        "react": ">=16"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

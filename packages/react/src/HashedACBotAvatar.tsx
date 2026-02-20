@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { ACBotAvatar } from './ACBotAvatar'
-import { generateAvatarConfig } from '@ac-andrade/ac-bot-avatar-utils'
-import type { HashedACBotAvatarProps } from '@ac-andrade/ac-bot-avatar-core'
+import { generateAvatarConfig } from '@acandrade/ac-bot-avatar-utils'
+import type { HashedACBotAvatarProps } from '@acandrade/ac-bot-avatar-core'
 
 /**
  * A wrapper around ACBotAvatar that generates its configuration deterministically

@@ -1,7 +1,7 @@
 import ACBotFace from './ACBotFace'
 import ACBotShape from './ACBotShape'
-import { hexToHsl } from '@ac-andrade/ac-bot-avatar-utils'
-import type { ACBotAvatarProps } from '@ac-andrade/ac-bot-avatar-core/dist/types'
+import { hexToHsl } from '@acandrade/ac-bot-avatar-utils'
+import type { ACBotAvatarProps } from '@acandrade/ac-bot-avatar-core'
 
 export const ACBotAvatar = ({
   background,

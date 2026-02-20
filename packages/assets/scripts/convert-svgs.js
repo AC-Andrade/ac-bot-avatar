@@ -141,7 +141,7 @@ export const ${componentName} = (props: React.SVGProps<SVGGElement>) => (
     emojis: 'EmojiType'
   };
   const typeName = typeMap[category] || 'string';
-  const importType = `import type { ${typeName} } from '@ac-andrade/ac-bot-avatar-core';`;
+  const importType = `import type { ${typeName} } from '@acandrade/ac-bot-avatar-core';`;
 
   const allContent = `${importType}
 import React from 'react';

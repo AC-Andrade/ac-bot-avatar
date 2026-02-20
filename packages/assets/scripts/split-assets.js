@@ -76,7 +76,7 @@ function extractSection(sectionName, outputDir, suffix) {
     indexContent += `\nexport {\n` + exportedKeys.map(key => `  ${toPascalCase(key)}${suffix},`).join('\n') + `\n};\n`;
 
     // Create all.ts for the record map
-    let allContent = `import type { ${sectionName === 'eyes' ? 'EyeType' : 'MouthType'} } from '@ac-andrade/ac-bot-avatar-core/dist/types';\n`;
+    let allContent = `import type { ${sectionName === 'eyes' ? 'EyeType' : 'MouthType'} } from '@acandrade/ac-bot-avatar-core';\n`;
     allContent += `import React from 'react';\n`;
     allContent += exportedKeys.map(key => `import { ${toPascalCase(key)}${suffix} } from './${key}';`).join('\n');
     allContent += `\n\nexport const ${sectionName}Map: Record<${sectionName === 'eyes' ? 'EyeType' : 'MouthType'}, React.FC> = {\n`;

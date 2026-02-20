@@ -37,10 +37,10 @@ Please include:
 
 This policy applies to all packages within this monorepo:
 
-- `@ac-andrade/ac-bot-avatar-core`
-- `@ac-andrade/ac-bot-avatar-assets`
-- `@ac-andrade/ac-bot-avatar-utils`
-- `@ac-andrade/ac-bot-avatar-react`
+- `@acandrade/ac-bot-avatar-core`
+- `@acandrade/ac-bot-avatar-assets`
+- `@acandrade/ac-bot-avatar-utils`
+- `@acandrade/ac-bot-avatar-react`
 
 ## Disclosure Policy
 

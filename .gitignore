@@ -11,6 +11,7 @@ dist
 .rpt2_cache
 *.tsbuildinfo
 .turbo
+*.tgz
 
 # generated assets
 packages/assets/svgs

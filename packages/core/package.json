@@ -11,8 +11,12 @@
     "files": [
         "dist"
     ],
-    "dependencies": {
-        "@acandrade/ac-bot-avatar-utils": "*"
+    "dependencies": {},
+    "peerDependencies": {
+        "react": ">=16"
+    },
+    "devDependencies": {
+        "@types/react": ">=16"
     },
     "publishConfig": {
         "access": "public"

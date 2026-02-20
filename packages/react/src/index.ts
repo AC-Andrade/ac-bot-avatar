@@ -1,0 +1,6 @@
+export * from './ACBotAvatar'
+export * from './HashedACBotAvatar'
+export * from './ACBotFace'
+export * from './ACBotShape'
+export * from '@ac-andrade/ac-bot-avatar-core'
+export * from '@ac-andrade/ac-bot-avatar-assets'

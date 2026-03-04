@@ -34,4 +34,5 @@ export const mouthsMap: Record<MouthType, React.ComponentType<React.SVGProps<SVG
   'tongue': TongueMouth,
   'wave': WaveMouth,
   'wave_small': WaveSmallMouth,
+  'none': () => null,
 };

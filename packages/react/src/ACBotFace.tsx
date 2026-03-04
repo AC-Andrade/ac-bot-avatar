@@ -21,9 +21,12 @@ const legacyFaceMap = {
 const ACBotFace = ({ face, eye, mouth, eyeColor, mouthColor, variant }: ACBotFaceProps) => {
   const { finalEye, finalMouth } = useMemo(() => {
     const legacy = face ? (legacyFaceMap as Record<Face, any>)[face] : undefined
+    const selectedEye = eye || legacy?.eye || 'normal'
+    const selectedMouth = mouth || legacy?.mouth || 'smile'
+
     return {
-      finalEye: eye || legacy?.eye || 'normal',
-      finalMouth: mouth || legacy?.mouth || 'smile'
+      finalEye: (eyes as any)[selectedEye] ? selectedEye : 'normal',
+      finalMouth: selectedMouth
     }
   }, [face, eye, mouth])
 

@@ -1,7 +1,7 @@
-import ACBotFace from './ACBotFace'
-import ACBotShape from './ACBotShape'
-import { hexToHsl } from '@acandrade/ac-bot-avatar-utils'
-import type { ACBotAvatarProps } from '@acandrade/ac-bot-avatar-core'
+import ACBotFace from "./ACBotFace";
+import ACBotShape from "./ACBotShape";
+import { hexToHsl } from "@acandrade/ac-bot-avatar-utils";
+import type { ACBotAvatarProps } from "@acandrade/ac-bot-avatar-core";
 
 export const ACBotAvatar = ({
   background,
@@ -15,37 +15,43 @@ export const ACBotAvatar = ({
   mouth,
   size,
   style,
-  variant = 'robot',
+  variant = "robot",
   ...rest
 }: ACBotAvatarProps) => {
-  let hslColor: [number, number, number] | undefined
+  let hslColor: [number, number, number] | undefined;
 
   if (Array.isArray(color)) {
-    hslColor = color
-  } else if (typeof color === 'string') {
-    hslColor = hexToHsl(color)
+    hslColor = color;
+  } else if (typeof color === "string") {
+    hslColor = hexToHsl(color);
   }
 
   // Handle maxSize limiting
-  let finalSize = size === 'inherit' ? '100%' : size === undefined ? 200 : size
-  if (typeof finalSize === 'number' && maxSize !== undefined && finalSize > maxSize) {
-    finalSize = maxSize
+  let finalSize = size === "inherit" ? "100%" : size === undefined ? 200 : size;
+  if (
+    typeof finalSize === "number" &&
+    maxSize !== undefined &&
+    finalSize > maxSize
+  ) {
+    finalSize = maxSize;
   }
 
   return (
     <svg
-      version='1.1'
-      baseProfile='tiny'
-      x='0px'
-      y='0px'
-      viewBox='-25 -25 350 350'
-      overflow='visible'
+      version="1.1"
+      baseProfile="tiny"
+      x="0px"
+      y="0px"
+      viewBox="-25 -25 350 350"
+      overflow="visible"
       width={finalSize}
       style={{
         ...style,
-        color: hslColor ? `hsl(${hslColor[0]}, ${hslColor[1]}%, ${hslColor[2]}%)` : 'inherit'
+        color: hslColor
+          ? `hsl(${hslColor[0]}, ${hslColor[1]}%, ${hslColor[2]}%)`
+          : "inherit",
       }}
-      preserveAspectRatio='none'
+      preserveAspectRatio="none"
     >
       <ACBotShape
         h={hslColor ? hslColor[0] : undefined}
@@ -55,18 +61,25 @@ export const ACBotAvatar = ({
         backgroundType={backgroundType}
         backgroundColors={backgroundColors}
         backgroundRotation={backgroundRotation}
+        backgroundPattern={rest.backgroundPattern}
         variant={variant}
+        accessory={rest.accessory}
+        accessoryColor={rest.accessoryColor}
       />
       <ACBotFace
         face={face}
         eye={eye}
         mouth={mouth}
+        eyebrows={rest.eyebrows}
+        details={rest.details}
         eyeColor={rest.eyeColor}
         mouthColor={rest.mouthColor}
+        eyebrowsColor={rest.eyebrowsColor}
+        detailsColor={rest.detailsColor}
         variant={variant}
       />
     </svg>
-  )
-}
+  );
+};
 
-export default ACBotAvatar
+export default ACBotAvatar;

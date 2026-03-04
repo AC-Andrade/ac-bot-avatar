@@ -38,6 +38,20 @@ export type MouthType =
   | "wave_small"
   | "none";
 
+export type EyebrowsType =
+  | "normal"
+  | "angry"
+  | "sad"
+  | "worried"
+  | "raised"
+  | "none";
+
+export type DetailsType = "blush" | "freckles" | "none";
+
+export type AccessoryType = "antenna" | "headphones" | "bow" | "hat" | "none";
+
+export type PatternType = "dots" | "lines" | "noise" | "none";
+
 export type Face =
   | "cool"
   | "normal"
@@ -57,8 +71,12 @@ export interface ACBotFaceProps {
   face?: Face;
   eye?: EyeType;
   mouth?: MouthType;
+  eyebrows?: EyebrowsType;
+  details?: DetailsType;
   eyeColor?: string;
   mouthColor?: string;
+  eyebrowsColor?: string;
+  detailsColor?: string;
   variant?: "robot" | "face";
 }
 
@@ -69,8 +87,11 @@ export interface BaseACBotAvatarProps {
   backgroundType?: "solid" | "gradientLinear" | "glass";
   backgroundColors?: (string | [number, number, number])[];
   backgroundRotation?: number;
+  backgroundPattern?: PatternType;
   maxSize?: number;
   variant?: "robot" | "face";
+  accessory?: AccessoryType;
+  accessoryColor?: string;
 }
 
 export interface ACBotAvatarProps extends ACBotFaceProps, BaseACBotAvatarProps {

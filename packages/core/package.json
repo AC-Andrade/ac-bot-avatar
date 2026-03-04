@@ -1,31 +1,31 @@
 {
-    "name": "@acandrade/ac-bot-avatar-core",
-    "version": "1.0.3",
-    "description": "Core types and constants for AC Bot Avatar",
-    "keywords": [
-        "typescript",
-        "avatar",
-        "bot",
-        "types"
-    ],
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-        "build": "tsc",
-        "test": "vitest run --passWithNoTests",
-        "pack": "npm pack"
-    },
-    "files": [
-        "dist"
-    ],
-    "dependencies": {},
-    "peerDependencies": {
-        "react": ">=16"
-    },
-    "devDependencies": {
-        "@types/react": ">=16"
-    },
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@acandrade/ac-bot-avatar-core",
+  "version": "1.0.3",
+  "description": "Core types and constants for AC Bot Avatar",
+  "keywords": [
+    "typescript",
+    "avatar",
+    "bot",
+    "types"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run --passWithNoTests",
+    "pack": "npm pack"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {},
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "devDependencies": {
+    "@types/react": ">=16"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -1,3 +1,3 @@
-export * from './color'
-export * from './hash'
-export * from './generator'
+export * from "./color";
+export * from "./hash";
+export * from "./generator";

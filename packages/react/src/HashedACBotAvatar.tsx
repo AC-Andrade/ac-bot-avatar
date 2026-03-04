@@ -1,28 +1,23 @@
-import { useMemo } from 'react'
-import { ACBotAvatar } from './ACBotAvatar'
-import { generateAvatarConfig } from '@acandrade/ac-bot-avatar-utils'
-import type { HashedACBotAvatarProps } from '@acandrade/ac-bot-avatar-core'
+import { useMemo } from "react";
+import { ACBotAvatar } from "./ACBotAvatar";
+import { generateAvatarConfig } from "@acandrade/ac-bot-avatar-utils";
+import type { HashedACBotAvatarProps } from "@acandrade/ac-bot-avatar-core";
 
 /**
  * A wrapper around ACBotAvatar that generates its configuration deterministically
  * based on an identifier and optional gender.
  */
 export const HashedACBotAvatar = ({
-    identifier,
-    gender,
-    ...props
+  identifier,
+  gender,
+  ...props
 }: HashedACBotAvatarProps) => {
-    const generatedProps = useMemo(() => {
-        if (!identifier) return {}
-        return generateAvatarConfig(identifier.toString(), gender)
-    }, [identifier, gender])
+  const generatedProps = useMemo(() => {
+    if (!identifier) return {};
+    return generateAvatarConfig(identifier.toString(), gender);
+  }, [identifier, gender]);
 
-    return (
-        <ACBotAvatar
-            {...generatedProps}
-            {...props}
-        />
-    )
-}
+  return <ACBotAvatar {...generatedProps} {...props} />;
+};
 
-export default HashedACBotAvatar
+export default HashedACBotAvatar;

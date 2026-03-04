@@ -1,9 +1,33 @@
 import {
   EyeType,
   MouthType,
+  EyebrowsType,
+  DetailsType,
+  AccessoryType,
+  PatternType,
   ACBotAvatarProps,
 } from "@acandrade/ac-bot-avatar-core";
 import { stringToHash, createPRNG, pickItem } from "./hash";
+
+const EYEBROWS: EyebrowsType[] = [
+  "normal",
+  "angry",
+  "sad",
+  "worried",
+  "raised",
+  "none",
+];
+const DETAILS: DetailsType[] = ["blush", "freckles", "none", "none"];
+const ACCESSORIES: AccessoryType[] = [
+  "antenna",
+  "headphones",
+  "bow",
+  "hat",
+  "none",
+  "none",
+  "none",
+];
+const PATTERNS: PatternType[] = ["dots", "lines", "noise", "none", "none"];
 
 const EYES: EyeType[] = [
   "normal",
@@ -65,7 +89,7 @@ const MALE_COLORS = ["#3b82f6", "#61f3f7", "#10b981", "#94a3b8", "#ffffff"];
  */
 export const generateAvatarConfig = (
   identifier: string,
-  gender?: string,
+  gender?: string
 ): Partial<ACBotAvatarProps> => {
   const seed = stringToHash(`${identifier}-${gender || "neutral"}`);
   const prng = createPRNG(seed);
@@ -86,6 +110,10 @@ export const generateAvatarConfig = (
   return {
     eye: pickItem(prng, EYES),
     mouth: pickItem(prng, MOUTHS),
+    eyebrows: pickItem(prng, EYEBROWS),
+    details: pickItem(prng, DETAILS),
+    accessory: pickItem(prng, ACCESSORIES),
+    backgroundPattern: pickItem(prng, PATTERNS),
     color: pickItem(prng, colorPool),
     variant,
   };

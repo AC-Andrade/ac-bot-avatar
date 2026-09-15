@@ -1,35 +1,18 @@
-import {
-  EyeType,
-  MouthType,
-  EyebrowsType,
-  DetailsType,
+import type {
   AccessoryType,
+  DetailsType,
+  EyeType,
+  EyebrowsType,
+  GenerateAvatarOptions,
+  GeneratedAvatarConfig,
+  MouthType,
+  PaletteName,
   PatternType,
-  ACBotAvatarProps,
 } from "@acandrade/ac-bot-avatar-core";
-import { stringToHash, createPRNG, pickItem } from "./hash";
+import { composeAvatarColors } from "./colorComposition";
+import { createPRNG, pickItem, stringToHash } from "./hash";
 
-const EYEBROWS: EyebrowsType[] = [
-  "normal",
-  "angry",
-  "sad",
-  "worried",
-  "raised",
-  "none",
-];
-const DETAILS: DetailsType[] = ["blush", "freckles", "none", "none"];
-const ACCESSORIES: AccessoryType[] = [
-  "antenna",
-  "headphones",
-  "bow",
-  "hat",
-  "none",
-  "none",
-  "none",
-];
-const PATTERNS: PatternType[] = ["dots", "lines", "noise", "none", "none"];
-
-const EYES: EyeType[] = [
+const V1_EYES: readonly EyeType[] = [
   "normal",
   "blink",
   "chords",
@@ -49,7 +32,7 @@ const EYES: EyeType[] = [
   "talking",
 ];
 
-const MOUTHS: MouthType[] = [
+const V1_MOUTHS: readonly MouthType[] = [
   "smile",
   "big_smile",
   "flat",
@@ -68,53 +51,148 @@ const MOUTHS: MouthType[] = [
   "wave_small",
 ];
 
-const COLORS = [
-  "#61f3f7", // Primary Cyan
-  "#8b4fe8", // Purple
-  "#3b82f6", // Blue
-  "#10b981", // Green
-  "#f59e0b", // Amber
-  "#ef4444", // Red
-  "#ec4899", // Pink
-  "#f97316", // Orange
-  "#ffffff", // White
-  "#94a3b8", // Slate
+const V2_EYEBROWS: readonly EyebrowsType[] = [
+  "normal",
+  "angry",
+  "sad",
+  "worried",
+  "raised",
+  "none",
+];
+const V2_DETAILS: readonly DetailsType[] = [
+  "blush",
+  "freckles",
+  "none",
+  "none",
+];
+const V2_ACCESSORIES: readonly AccessoryType[] = [
+  "antenna",
+  "headphones",
+  "bow",
+  "hat",
+  "stars",
+  "hearts",
+  "explosions",
+  "carnival",
+  "lights",
+  "none",
+  "none",
+  "none",
+];
+const V2_PATTERNS: readonly PatternType[] = [
+  "dots",
+  "lines",
+  "noise",
+  "none",
+  "none",
 ];
 
-const FEMALE_COLORS = ["#ec4899", "#8b4fe8", "#f97316", "#ffffff", "#61f3f7"];
-const MALE_COLORS = ["#3b82f6", "#61f3f7", "#10b981", "#94a3b8", "#ffffff"];
+const PALETTES: Record<PaletteName, readonly string[]> = {
+  neutral: [
+    "#61f3f7",
+    "#8b4fe8",
+    "#3b82f6",
+    "#10b981",
+    "#f59e0b",
+    "#ef4444",
+    "#ec4899",
+    "#f97316",
+    "#ffffff",
+    "#94a3b8",
+  ],
+  warm: ["#ec4899", "#8b4fe8", "#f97316", "#ffffff", "#61f3f7"],
+  cool: ["#3b82f6", "#61f3f7", "#10b981", "#94a3b8", "#ffffff"],
+};
+
+const normalizeOptions = (
+  optionsOrGender?: GenerateAvatarOptions | string
+): GenerateAvatarOptions =>
+  typeof optionsOrGender === "string"
+    ? { gender: optionsOrGender }
+    : optionsOrGender ?? {};
+
+const resolvePalette = ({
+  gender,
+  palette,
+}: GenerateAvatarOptions): readonly string[] => {
+  if (Array.isArray(palette) && palette.length > 0) return palette;
+  if (palette === "warm" || gender === "female") return PALETTES.warm;
+  if (palette === "cool" || gender === "male") return PALETTES.cool;
+  return PALETTES.neutral;
+};
 
 /**
- * Deterministically generates an avatar configuration based on an identifier and optional gender.
+ * Generates an avatar deterministically. Version v1 is the compatibility
+ * default; v2 opts into the expanded detail, accessory and pattern catalogs.
  */
 export const generateAvatarConfig = (
   identifier: string,
-  gender?: string
-): Partial<ACBotAvatarProps> => {
-  const seed = stringToHash(`${identifier}-${gender || "neutral"}`);
+  optionsOrGender?: GenerateAvatarOptions | string
+): GeneratedAvatarConfig => {
+  const options = normalizeOptions(optionsOrGender);
+  const generationVersion = options.generationVersion ?? "v1";
+  const legacyGender = options.gender;
+  const seed = stringToHash(`${identifier}-${legacyGender || "neutral"}`);
   const prng = createPRNG(seed);
-
-  // Determine color pool based on gender rules
-  let colorPool = COLORS;
-  if (gender === "female") {
-    colorPool = FEMALE_COLORS;
-  } else if (gender === "male") {
-    colorPool = MALE_COLORS;
-  }
-
-  // Determine variant preference (robots vs faces)
-  // Faces might feel slightly more "human/gendered" if that's the intent
+  const colorPool = resolvePalette(options);
   const variant: "robot" | "face" =
-    prng() > (gender ? 0.3 : 0.5) ? "robot" : "face";
+    prng() > (legacyGender ? 0.3 : 0.5) ? "robot" : "face";
 
-  return {
-    eye: pickItem(prng, EYES),
-    mouth: pickItem(prng, MOUTHS),
-    eyebrows: pickItem(prng, EYEBROWS),
-    details: pickItem(prng, DETAILS),
-    accessory: pickItem(prng, ACCESSORIES),
-    backgroundPattern: pickItem(prng, PATTERNS),
-    color: pickItem(prng, colorPool),
+  const baseConfig: GeneratedAvatarConfig = {
+    eye: pickItem(prng, V1_EYES),
+    mouth: pickItem(prng, V1_MOUTHS),
+    color: "",
     variant,
   };
+
+  if (generationVersion === "v2" || generationVersion === "v3") {
+    baseConfig.eyebrows = pickItem(prng, V2_EYEBROWS);
+    baseConfig.details = pickItem(prng, V2_DETAILS);
+    baseConfig.accessory = pickItem(prng, V2_ACCESSORIES);
+    baseConfig.backgroundPattern = pickItem(prng, V2_PATTERNS);
+  }
+
+  if (generationVersion === "v3") {
+    const requested = options.composition ?? {};
+    const eye = requested.eye ?? baseConfig.eye;
+    const mouth = requested.mouth ?? baseConfig.mouth;
+    const eyebrows = requested.eyebrows ?? baseConfig.eyebrows;
+    const details = requested.details ?? baseConfig.details;
+    const accessory = requested.accessory ?? baseConfig.accessory;
+    const composition = composeAvatarColors(identifier, {
+      ...requested,
+      palette:
+        requested.palette ??
+        options.palette ??
+        (legacyGender === "female"
+          ? "warm"
+          : legacyGender === "male"
+          ? "cool"
+          : undefined),
+      variant: requested.variant ?? baseConfig.variant,
+      eye,
+      mouth,
+      eyebrows,
+      details,
+      accessory,
+      hasMouth: requested.hasMouth ?? mouth !== "none",
+      hasEyebrows: requested.hasEyebrows ?? eyebrows !== "none",
+      hasDetails: requested.hasDetails ?? details !== "none",
+      hasAccessory: requested.hasAccessory ?? accessory !== "none",
+    });
+
+    baseConfig.color = composition.colors.body;
+    baseConfig.eyeColor = composition.colors.eyes;
+    baseConfig.mouthColor = composition.colors.mouth;
+    baseConfig.eyebrowsColor = composition.colors.eyebrows;
+    baseConfig.detailsColor = composition.colors.details;
+    baseConfig.accessoryColor = composition.colors.accessory;
+    baseConfig.background = composition.backgroundType !== "transparent";
+    baseConfig.backgroundType = composition.backgroundType;
+    baseConfig.backgroundColors = [...composition.colors.background];
+    return baseConfig;
+  }
+
+  baseConfig.color = pickItem(prng, colorPool);
+  return baseConfig;
 };

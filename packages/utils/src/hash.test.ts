@@ -28,4 +28,9 @@ describe("hash utils", () => {
     const prng = () => 0;
     expect(pickItem(prng, ["a", "b", "c"])).toBe("a");
   });
+
+  it("rejeita intervalos e coleções inválidos", () => {
+    expect(() => randomInt(() => 0, 1, 1)).toThrow(RangeError);
+    expect(() => pickItem(() => 0, [])).toThrow(RangeError);
+  });
 });

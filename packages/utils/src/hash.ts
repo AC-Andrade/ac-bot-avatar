@@ -32,6 +32,11 @@ export const randomInt = (
   min: number,
   max: number
 ): number => {
+  if (!Number.isInteger(min) || !Number.isInteger(max) || max <= min) {
+    throw new RangeError(
+      "min and max must be integers and max must exceed min"
+    );
+  }
   return Math.floor(prng() * (max - min) + min);
 };
 
@@ -42,5 +47,14 @@ export const pickItem = <T>(
   prng: () => number,
   items: T[] | readonly T[]
 ): T => {
+  if (items.length === 0) {
+    throw new RangeError("items must contain at least one value");
+  }
   return items[randomInt(prng, 0, items.length)];
+};
+
+/** Creates a deterministic, SVG-safe identifier from arbitrary input. */
+export const createStableSvgId = (prefix: string, input: string): string => {
+  const safePrefix = prefix.toLowerCase().replace(/[^a-z0-9_-]+/g, "-");
+  return `${safePrefix}-${stringToHash(input).toString(36)}`;
 };

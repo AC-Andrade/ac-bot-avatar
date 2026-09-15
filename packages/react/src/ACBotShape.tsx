@@ -1,25 +1,11 @@
-import React, { useMemo } from "react";
 import {
   accessories as accessoriesMap,
   patterns as patternsMap,
 } from "@acandrade/ac-bot-avatar-assets";
-import type { AccessoryType, PatternType } from "@acandrade/ac-bot-avatar-core";
+import { createStableSvgId } from "@acandrade/ac-bot-avatar-utils";
+import type { ACBotShapeProps } from "./types";
 
-interface ACBotShapeProps {
-  h?: number;
-  s?: number;
-  l?: number;
-  background?: boolean;
-  backgroundType?: "solid" | "gradientLinear" | "glass";
-  backgroundColors?: (string | [number, number, number])[];
-  backgroundRotation?: number;
-  backgroundPattern?: PatternType;
-  variant?: "robot" | "face" | "emoji";
-  accessory?: AccessoryType;
-  accessoryColor?: string;
-}
-
-const ACBotShape = ({
+export const ACBotShape = ({
   h,
   s,
   l,
@@ -31,11 +17,30 @@ const ACBotShape = ({
   variant = "robot",
   accessory = "none",
   accessoryColor,
+  idPrefix,
+  accessoryRegistry = accessoriesMap,
+  patternRegistry = patternsMap,
 }: ACBotShapeProps) => {
-  const innerShadowId = useMemo(
-    () => `inner-shadow-${Math.random().toString(36).substr(2, 9)}`,
-    []
-  );
+  const resolvedIdPrefix =
+    idPrefix ??
+    createStableSvgId(
+      "ac-bot-shape",
+      JSON.stringify({
+        h,
+        s,
+        l,
+        background,
+        backgroundType,
+        backgroundColors,
+        backgroundRotation,
+        backgroundPattern,
+        variant,
+        accessory,
+      })
+    );
+  const innerShadowId = `${resolvedIdPrefix}-inner-shadow`;
+  const gradientId = `${resolvedIdPrefix}-gradient`;
+  const filterId = `${resolvedIdPrefix}-glass-blur`;
   const isCustom = h !== undefined && s !== undefined && l !== undefined;
 
   const getFill = (color?: string | [number, number, number]) => {
@@ -49,7 +54,7 @@ const ACBotShape = ({
   };
 
   const renderBackground = () => {
-    if (!background) return null;
+    if (!background || backgroundType === "transparent") return null;
 
     // Default: solid
     let bgElement = (
@@ -67,7 +72,6 @@ const ACBotShape = ({
       backgroundColors &&
       backgroundColors.length >= 2
     ) {
-      const gradientId = `grad-${Math.random().toString(36).substr(2, 9)}`;
       bgElement = (
         <>
           <defs>
@@ -100,7 +104,6 @@ const ACBotShape = ({
     }
 
     if (backgroundType === "glass") {
-      const filterId = `blur-${Math.random().toString(36).substr(2, 9)}`;
       const colors =
         backgroundColors && backgroundColors.length >= 2
           ? backgroundColors
@@ -117,7 +120,13 @@ const ACBotShape = ({
               />
             </filter>
           </defs>
-          <rect x="-50%" y="-50%" width="200%" height="200%" fill="#0a0a0a" />
+          <rect
+            x="-50%"
+            y="-50%"
+            width="200%"
+            height="200%"
+            fill={getFill(colors[3] ?? "#0a0a0a")}
+          />
           <g filter={`url(#${filterId})`} opacity="0.6">
             <circle cx="50" cy="50" r="150" fill={getFill(colors[0])} />
             <circle cx="250" cy="250" r="120" fill={getFill(colors[1])} />
@@ -138,18 +147,20 @@ const ACBotShape = ({
 
     const PatternComponent =
       backgroundPattern && backgroundPattern !== "none"
-        ? patternsMap[backgroundPattern]
+        ? patternRegistry[backgroundPattern]
         : null;
 
     return (
       <>
         {bgElement}
-        {PatternComponent && React.createElement(PatternComponent as any)}
+        {PatternComponent && (
+          <PatternComponent idPrefix={`${resolvedIdPrefix}-pattern`} />
+        )}
       </>
     );
   };
 
-  const EmojiFilter = () => (
+  const emojiFilter = (
     <filter
       id={innerShadowId}
       x="0"
@@ -181,10 +192,8 @@ const ACBotShape = ({
   );
 
   return (
-    <g id="robotShape">
-      <defs>
-        <EmojiFilter />
-      </defs>
+    <g data-ac-bot-part="shape">
+      <defs>{emojiFilter}</defs>
       {renderBackground()}
       {variant === "robot" && (
         <g transform="translate(-5, 34) scale(0.0929)">
@@ -299,6 +308,7 @@ const ACBotShape = ({
               }
             />
             <path
+              data-ac-bot-visor=""
               d="M1589.26,586.678c306.991,0 666.14,22.255 871.085,157.887c164.776,109.049 219.772,315.561 219.772,483.039c0,154.137 -7.231,401.689 -134.687,515.862c-183.278,164.178 -637.121,204.952 -963.772,204.952c-269.816,0 -636.146,-79 -823.957,-192.307c-197.681,-119.261 -202.231,-281.369 -198.484,-474.038c3.801,-195.459 -7.789,-380.878 183.916,-499.931c226.259,-140.511 575.022,-195.464 846.126,-195.464Z"
               fill="#202135"
             />
@@ -328,13 +338,21 @@ const ACBotShape = ({
         </g>
       )}
 
-      {accessory !== "none" && accessoriesMap[accessory] && (
-        <g transform="translate(0, -10) scale(0.65)">
-          {React.createElement(accessoriesMap[accessory] as any, {
-            style: accessoryColor ? { color: accessoryColor } : undefined,
-          })}
-        </g>
-      )}
+      {accessory !== "none" &&
+        (() => {
+          const Accessory = accessoryRegistry[accessory];
+          return Accessory ? (
+            <g className="ac-bot-accessory">
+              <Accessory
+                style={{
+                  color:
+                    accessoryColor ??
+                    (variant === "robot" ? "#000000" : "currentColor"),
+                }}
+              />
+            </g>
+          ) : null;
+        })()}
     </g>
   );
 };

@@ -1,0 +1,14 @@
+node_modules
+dist
+.turbo
+coverage
+playwright-report
+test-results
+.agents
+.specs
+.vscode
+.pack-check
+packages/assets/svgs
+docs/gallery/index.html
+docs/gallery/screenshots
+yarn.lock

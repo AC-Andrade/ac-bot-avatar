@@ -1,7 +1,30 @@
 {
   "name": "@acandrade/ac-bot-avatar-assets",
   "version": "1.0.3",
-  "description": "SVG components and asset maps for AC Bot Avatar",
+  "description": "Composable SVG assets and registries for AC Bot Avatar",
+  "type": "module",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./dist/types/*.d.ts",
+      "import": "./dist/esm/*.js",
+      "require": "./dist/cjs/*.cjs"
+    },
+    "./dist/*": {
+      "types": "./dist/types/*.d.ts",
+      "import": "./dist/esm/*.js",
+      "require": "./dist/cjs/*.cjs"
+    }
+  },
+  "sideEffects": false,
   "keywords": [
     "svg",
     "react",
@@ -9,23 +32,37 @@
     "assets",
     "icons"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "test": "vitest run --passWithNoTests",
+    "build": "node ../../scripts/build-package.mjs",
+    "typecheck": "tsc --build --pretty false",
+    "test": "vitest run",
     "pack": "npm pack"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "dependencies": {
-    "@acandrade/ac-bot-avatar-core": "*"
+    "@acandrade/ac-bot-avatar-core": "^1.0.3"
   },
   "peerDependencies": {
-    "react": ">=16"
+    "react": ">=16.14"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AC-Andrade/ac-bot-avatar.git",
+    "directory": "packages/assets"
+  },
+  "homepage": "https://acbot.dev",
+  "bugs": {
+    "url": "https://github.com/AC-Andrade/ac-bot-avatar/issues"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

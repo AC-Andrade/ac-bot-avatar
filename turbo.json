@@ -10,7 +10,11 @@
       "persistent": true
     },
     "test": {
-      "dependsOn": ["^test"]
+      "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"],
+      "outputs": ["dist/types/**", "*.tsbuildinfo"]
     },
     "pack": {
       "dependsOn": ["build"],

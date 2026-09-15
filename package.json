@@ -6,21 +6,50 @@
   "workspaces": [
     "packages/*"
   ],
+  "resolutions": {
+    "vite": "6.4.3"
+  },
   "scripts": {
-    "build": "turbo run build",
+    "clean": "node scripts/clean-build.mjs",
+    "build": "yarn clean && turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck && tsc --project tsconfig.tests.json --pretty false",
+    "lint": "eslint \"packages/**/*.{ts,tsx}\" --report-unused-disable-directives",
+    "format:check": "prettier --check \"**/*.{js,mjs,cjs,json,md,ts,tsx,yml,yaml}\" --ignore-path .prettierignore",
+    "format:write": "prettier --write \"**/*.{js,mjs,cjs,json,md,ts,tsx,yml,yaml}\" --ignore-path .prettierignore",
     "test": "turbo run test",
-    "pack": "turbo run pack"
+    "gallery": "yarn build && node scripts/render-gallery.mjs",
+    "color:audit": "node scripts/audit-color-compositions.mjs",
+    "test:visual": "yarn gallery && playwright test",
+    "generate:assets": "node packages/assets/scripts/clean-fruit-svgs.mjs && node packages/assets/scripts/convert-svgs.mjs",
+    "check:assets": "node packages/assets/scripts/clean-fruit-svgs.mjs --check && node packages/assets/scripts/convert-svgs.mjs --check",
+    "size:check": "node scripts/check-package-size.mjs",
+    "security:audit": "yarn audit --level high",
+    "security:snyk": "snyk code test --severity-threshold=high",
+    "pack": "turbo run pack",
+    "pack:check": "node scripts/pack-check.mjs",
+    "quality": "yarn check:assets && yarn format:check && yarn lint && yarn typecheck && yarn test && yarn build && yarn pack:check && yarn size:check"
   },
   "devDependencies": {
-    "turbo": "latest",
-    "prettier": "^2.0.4",
-    "eslint": "^6.8.0",
-    "vitest": "^2.1.9"
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.55.1",
+    "@types/react": "18.3.24",
+    "@types/react-dom": "18.3.7",
+    "@typescript-eslint/eslint-plugin": "8.70.0",
+    "@typescript-eslint/parser": "8.70.0",
+    "esbuild": "0.28.2",
+    "eslint": "10.10.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "prettier": "2.8.8",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "snyk": "1.1307.2",
+    "turbo": "2.10.12",
+    "typescript": "5.9.3",
+    "vitest": "4.1.11"
   },
   "engines": {
-    "node": ">=10",
-    "npm": ">=6"
+    "node": ">=20",
+    "npm": ">=9"
   }
 }

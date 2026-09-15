@@ -1,122 +1,152 @@
-# ac-bot-avatar
+# AC Bot Avatar
 
-[![GitHub](https://img.shields.io/badge/GitHub-AC--Andrade%2Fac--bot--avatar-181717?logo=github)](https://github.com/AC-Andrade/ac-bot-avatar)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![Docs](https://img.shields.io/badge/Docs-docs.acbot.dev-6366f1?logo=readthedocs&logoColor=white)](https://docs.acbot.dev)
-[![Playground](https://img.shields.io/badge/Playground-play.acbot.dev-10b981?logo=codepen&logoColor=white)](https://play.acbot.dev)
-[![API](https://img.shields.io/badge/API-api.acbot.dev-0ea5e9?logo=fastapi&logoColor=white)](https://api.acbot.dev)
+Avatares SVG modulares e determinísticos para React. O monorepo mantém separados os contratos de domínio, a geração, os assets e a camada de apresentação.
 
-> **ac-bot-avatar** is an open-source monorepo for generating deterministic bot identicon avatars.  
-> Given any string (e.g. a username or email), it produces a unique, reproducible bot-face avatar using a hash-based pipeline — no external API required.
+![AC Bot Avatar preview](./preview.png)
 
----
+## Pacotes
 
-## Live
+| Pacote                            | Responsabilidade                                                  |
+| --------------------------------- | ----------------------------------------------------------------- |
+| `@acandrade/ac-bot-avatar-core`   | Tipos, catálogos readonly e contratos sem dependência de React    |
+| `@acandrade/ac-bot-avatar-utils`  | Hash, cores e geração determinística versionada                   |
+| `@acandrade/ac-bot-avatar-assets` | Componentes SVG, registros e imports profundos de compatibilidade |
+| `@acandrade/ac-bot-avatar-react`  | Componentes React acessíveis e temas de composição                |
 
-| Service       | Domain                                               | Route         |
-| ------------- | ---------------------------------------------------- | ------------- |
-| 🏠 Home       | [acbot.dev](https://docs.acbot.dev)                  | `/`           |
-| 📚 Docs       | [docs.acbot.dev](https://docs.acbot.dev)             | `/docs`       |
-| 🎮 Playground | [play.acbot.dev](https://play.acbot.dev)             | `/playground` |
-| ⚡ REST API   | [api.acbot.dev/avatar](https://api.acbot.dev/avatar) | `/api/avatar` |
-
----
-
-## Preview
-
-![ac-bot-avatar preview](./preview.png)
-
-> Each avatar is **deterministic**: the same seed always produces the same avatar.
-
----
-
-## Architecture
-
-This is a **Yarn Workspaces + Turbo** monorepo with four packages:
-
-| Package                                                | Description                           |
-| ------------------------------------------------------ | ------------------------------------- |
-| [`@acandrade/ac-bot-avatar-core`](./packages/core)     | Core types and state definitions      |
-| [`@acandrade/ac-bot-avatar-assets`](./packages/assets) | SVG assets (eyes, mouths, body parts) |
-| [`@acandrade/ac-bot-avatar-utils`](./packages/utils)   | Hashing and avatar generator logic    |
-| [`@acandrade/ac-bot-avatar-react`](./packages/react)   | React component ready to use          |
-
-```
-ac-bot-avatar/
-├── packages/
-│   ├── core/     → types & state
-│   ├── assets/   → SVG parts
-│   ├── utils/    → hash + generator
-│   └── react/    → <ACBotAvatar /> component
-├── turbo.json
-└── package.json  (workspace root)
-```
-
----
-
-## Getting Started
-
-### Install dependencies
+## Instalação
 
 ```bash
-yarn install
+yarn add @acandrade/ac-bot-avatar-react react
 ```
 
-### Build all packages
+## Uso
 
-```bash
-yarn build
+Para um avatar determinístico, use `seed`. `identifier` continua aceito na série 1.x para compatibilidade.
+
+```tsx
+import { HashedACBotAvatar } from "@acandrade/ac-bot-avatar-react";
+
+export function UserAvatar() {
+  return (
+    <HashedACBotAvatar
+      seed="user@example.com"
+      size={96}
+      title="Avatar de User"
+    />
+  );
+}
 ```
 
-### Run tests
-
-```bash
-yarn test
-```
-
----
-
-## Usage
+Também é possível escolher cada parte explicitamente:
 
 ```tsx
 import { ACBotAvatar } from "@acandrade/ac-bot-avatar-react";
 
-export default function App() {
-  return <ACBotAvatar seed="my-username" size={128} />;
-}
+<ACBotAvatar
+  theme="robot"
+  eye="sunglasses"
+  mouth="smile"
+  eyebrows="raised"
+  accessory="stars"
+  background
+  backgroundType="gradientLinear"
+  backgroundColors={["#312e81", "#0f766e"]}
+  backgroundPattern="dots"
+  size={128}
+  aria-label="Robô sorridente"
+/>;
 ```
 
----
+`identifier={0}` e `identifier=""` são seeds válidas. Somente `null` ou `undefined` representam ausência de identificador. A geração 1.x usa `generationVersion="v1"` por padrão para preservar avatares existentes; os catálogos expandidos são opt-in com `generationVersion="v2"`. A composição inteligente e determinística de cores é opt-in com `generationVersion="v3"`.
 
-## Publishing to NPM
+```tsx
+<HashedACBotAvatar
+  seed="atlas-9823"
+  theme="robot"
+  generationVersion="v3"
+  background
+  backgroundType="gradientLinear"
+/>
+```
 
-Build and publish all public packages:
+Sem `title`, `aria-label` ou `aria-labelledby`, o SVG é decorativo (`aria-hidden="true"`). O componente principal encaminha `ref`, eventos, `className`, atributos `data-*`, SVG e ARIA.
+
+Os valores aceitos são expostos como constantes readonly pelo pacote `core`, incluindo `EYE_TYPES`, `MOUTH_TYPES`, `ACCESSORY_TYPES`, `PATTERN_TYPES` e `AVATAR_VARIANTS`.
+
+O pacote React também exporta temas completos. Eles mudam a base visual, enquanto olhos, bocas, detalhes e acessórios continuam usando o mesmo compositor:
+
+```tsx
+import {
+  ACBotAvatar,
+  avatarThemes,
+  HashedACBotAvatar,
+} from "@acandrade/ac-bot-avatar-react";
+
+<ACBotAvatar theme="robot" eye="normal" mouth="smile" size={128} />;
+<ACBotAvatar
+  theme={avatarThemes["face-minimal"]}
+  eye="love"
+  mouth="big_smile"
+  eyeColor="#67e8f9"
+  mouthColor="#f9a8d4"
+  size={128}
+/>;
+
+<HashedACBotAvatar
+  seed="apple"
+  theme="fruit"
+  themeVariant="strawberry"
+  background
+  backgroundType="solid"
+  backgroundColors={["#fff7ed"]}
+  eyeColor="#4fdcff"
+  mouthColor="#ff8fab"
+  size={128}
+/>;
+```
+
+Fruit Bots possuem paleta canônica bloqueada: `color` não recolore a fruta. Somente `backgroundColors`, `eyeColor` e `mouthColor` alteram cores nesse tema. As 18 variantes são `apple`, `pear`, `banana`, `grape`, `orange`, `strawberry`, `pineapple`, `watermelon`, `lemon`, `mango`, `cherry`, `peach`, `kiwi`, `coconut`, `papaya`, `guava`, `passionfruit` e `acai`. Nomes em português como `maçã`, `uva`, `maracujá` e `açaí` também são reconhecidos.
+
+Os temas robóticos mantêm uma área facial segura: olhos e boca preservam no mínimo 4% de margem nas quatro bordas do visor e 4% de separação vertical entre si. Esse é um limite comum, não um posicionamento único; frutas e variantes Capsule continuam usando escala e centro próprios para respeitar o formato de cada visor.
+
+O nome pode ser usado diretamente (`theme="pixel"`) ou pelo registro (`theme={avatarThemes.pixel}`). Os estilos clássicos públicos agora são `robot`, com a carcaça completa, e `face-minimal`, somente com olhos, boca, detalhes e fundo. Os demais temas incluídos são `fruit`, `terminal`, `emoji`, `capsule`, `pixel`, `arcade` e `initial`. O nome legado `classic` continua aceito na série 1.x e permanece como fallback para preservar avatares existentes, mas não aparece em `BUILT_IN_AVATAR_THEME_IDS`. `capsule` oferece as bases `default | antenna | mohawk | satellite`, cada uma com encaixe facial próprio; `color` recolore o corpo preservando sombras e brilhos, enquanto `eyeColor` e `mouthColor` controlam o rosto. `pixel` usa uma matriz nítida, `arcade` usa um robô retrô canônico e `initial` combina expressão com monograma. O tema `arcade` não possui variantes de modelo. Em `initial`, `themeVariant` permite escolher `soft | poster | outline`.
+
+```tsx
+<HashedACBotAvatar seed="Ada Lovelace" theme="pixel" size={96} />;
+<HashedACBotAvatar
+  seed="Ada Lovelace"
+  theme="capsule"
+  themeVariant="satellite"
+  color="#059669"
+  eye="love"
+  mouth="big_smile"
+  eyeColor="#a7f3d0"
+  mouthColor="#fde68a"
+/>;
+<HashedACBotAvatar
+  seed="Ada Lovelace"
+  theme="arcade"
+  color="#2563eb"
+  eyeColor="#67e8f9"
+  mouthColor="#f9a8d4"
+/>;
+<HashedACBotAvatar seed="Ada Lovelace" theme="initial" monogram="A" />;
+```
+
+## Desenvolvimento
+
+Requer Node.js 20+, npm 9+ e Yarn 1.22.22 para desenvolvimento. Os pacotes publicados mantêm compatibilidade de runtime com Node.js 18+.
 
 ```bash
-yarn build
-npm publish --workspaces --access public
+yarn install --frozen-lockfile
+yarn quality
+yarn test:visual
 ```
 
----
+`yarn quality` verifica formatação, lint, tipos, testes reais em todos os pacotes, build dual ESM/CommonJS, conteúdo dos tarballs e orçamento de tamanho. `yarn check:assets` confirma que os componentes gerados correspondem aos SVGs canônicos em `packages/assets/svgs`.
 
-## Repository
+Consulte [DEVELOPMENT.md](./DEVELOPMENT.md), [a documentação técnica](./docs/README.md), [o Color Composition Engine](./docs/COLOR_COMPOSITION.md), [a migração planejada para 2.0](./docs/MIGRATION_V2.md) e [SECURITY.md](./SECURITY.md).
 
-```bash
-git remote add origin https://github.com/AC-Andrade/ac-bot-avatar.git
-git branch -M main
-git push -u origin main
-```
+## Licença
 
----
-
-## Contributing
-
-Please read our [Code of Conduct](./CODE_OF_CONDUCT.md) and [Security Policy](./SECURITY.md) before contributing.
-
-Pull requests are welcome!
-
----
-
-## License
-
-[MIT](./LICENSE) © AC-Andrade
+[MIT](./LICENSE)

@@ -1,6 +1,6 @@
 {
   "name": "@acandrade/ac-bot-avatar-react",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Accessible React components for deterministic AC Bot Avatars",
   "type": "module",
   "main": "./dist/cjs/index.cjs",
@@ -34,9 +34,9 @@
     "LICENSE"
   ],
   "dependencies": {
-    "@acandrade/ac-bot-avatar-assets": "^1.0.3",
-    "@acandrade/ac-bot-avatar-core": "^1.0.3",
-    "@acandrade/ac-bot-avatar-utils": "^1.0.3"
+    "@acandrade/ac-bot-avatar-assets": "^1.1.0",
+    "@acandrade/ac-bot-avatar-core": "^1.1.0",
+    "@acandrade/ac-bot-avatar-utils": "^1.1.0"
   },
   "peerDependencies": {
     "react": ">=16.14"

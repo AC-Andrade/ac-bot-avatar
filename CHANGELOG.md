@@ -4,6 +4,8 @@ Todas as mudanças relevantes são documentadas neste arquivo, seguindo Keep a C
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-09-15
+
 ### Added
 
 - Builds ESM e CommonJS com exports explícitos, tipos e source maps.

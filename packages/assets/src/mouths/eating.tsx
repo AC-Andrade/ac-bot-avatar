@@ -1,0 +1,19 @@
+import type { SVGProps } from "react";
+
+export const EatingMouth = (props: SVGProps<SVGGElement>) => (
+  <g {...props}>
+    <rect
+      x="1200"
+      y="1550"
+      width="800"
+      height="300"
+      rx="150"
+      fill="currentColor"
+      fillOpacity="0.8"
+    />
+
+    <circle cx="1400" cy="1700" r="80" fill="currentColor" fillOpacity="0.3" />
+    <circle cx="1600" cy="1700" r="100" fill="currentColor" fillOpacity="0.4" />
+    <circle cx="1800" cy="1700" r="70" fill="currentColor" fillOpacity="0.2" />
+  </g>
+);

@@ -1,0 +1,27 @@
+import type { SVGProps } from "react";
+
+export const VomitMouth = (props: SVGProps<SVGGElement>) => (
+  <g {...props}>
+    <path
+      d="M 1300 1550 Q 1600 1500 1900 1550 L 1950 1700 Q 1600 1850 1250 1700 Z"
+      fill="currentColor"
+      fillOpacity="0.8"
+    />
+
+    <path
+      d="M 1350 1650 Q 1450 1900 1350 2150 L 1850 2150 Q 1750 1900 1850 1650 Z"
+      fill="#a855f7"
+      fillOpacity="0.7"
+    />
+    <path
+      d="M 1450 1650 Q 1550 1900 1450 2150 L 1750 2150 Q 1650 1900 1750 1650 Z"
+      fill="#4ade80"
+      fillOpacity="0.8"
+    />
+    <path
+      d="M 1550 1650 Q 1600 1900 1550 2150 L 1650 2150 Q 1600 1900 1650 1650 Z"
+      fill="#3b82f6"
+      fillOpacity="0.9"
+    />
+  </g>
+);

@@ -1,19 +1,16 @@
 import React from "react";
 
 export const AntennaAccessory = (props: React.SVGProps<SVGGElement>) => (
-  <g {...props}>
+  <g {...props} stroke="currentColor">
     {/* Base */}
-    <path d="M 130 50 Q 150 20 170 50 Z" fill="currentColor" />
-    {/* Stick */}
-    <line
-      x1="150"
-      y1="50"
-      x2="150"
-      y2="-20"
-      stroke="currentColor"
-      strokeWidth="8"
+    <path
+      d="M 144 15 L 134 30 L 154 30 Z"
+      fill="currentColor"
+      strokeWidth="0"
     />
+    {/* Rod */}
+    <line x1="144" y1="15" x2="144" y2="-20" strokeWidth="4" />
     {/* Ball */}
-    <circle cx="150" cy="-30" r="16" fill="currentColor" />
+    <circle cx="144" cy="-25" r="8" fill="currentColor" strokeWidth="0" />
   </g>
 );

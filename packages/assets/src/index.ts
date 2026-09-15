@@ -4,6 +4,7 @@ import { eyebrowsMap } from "./eyebrows/all";
 import { detailsMap } from "./details/all";
 import { accessoriesMap } from "./accessories/all";
 import { patternsMap } from "./patterns/all";
+import { fruitsMap } from "./fruits/all";
 
 export const eyes = eyesMap;
 export const mouths = mouthsMap;
@@ -11,6 +12,7 @@ export const eyebrows = eyebrowsMap;
 export const details = detailsMap;
 export const accessories = accessoriesMap;
 export const patterns = patternsMap;
+export const fruits = fruitsMap;
 
 export * from "./eyes";
 export * from "./mouths";
@@ -18,3 +20,6 @@ export * from "./eyebrows";
 export * from "./details";
 export * from "./accessories";
 export * from "./patterns";
+export * from "./fruits";
+export * from "./arcade";
+export * from "./capsules";

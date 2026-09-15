@@ -4,6 +4,9 @@ import { mouthsMap } from "./all";
 
 const mouthKeys = [
   "big_smile",
+  "big_smile_open_tongue",
+  "disbelief",
+  "eating",
   "flat",
   "laugh_open",
   "mischief",
@@ -17,6 +20,7 @@ const mouthKeys = [
   "surprised",
   "talking",
   "tongue",
+  "vomit",
   "wave",
   "wave_small",
   "none",

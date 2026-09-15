@@ -1,11 +1,11 @@
+import type { ComponentType } from "react";
+import type { PatternProps } from "./types";
 import type { PatternType } from "@acandrade/ac-bot-avatar-core";
-import React from "react";
 import { DotsPattern } from "./dots";
 import { LinesPattern } from "./lines";
 import { NoisePattern } from "./noise";
 
-// As patterns work slightly differently (pattern/filter elements), we provide them this way
-export const patternsMap: Record<PatternType, React.ComponentType<any>> = {
+export const patternsMap: Record<PatternType, ComponentType<PatternProps>> = {
   dots: DotsPattern,
   lines: LinesPattern,
   noise: NoisePattern,

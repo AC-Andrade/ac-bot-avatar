@@ -8,7 +8,7 @@ export const BlushDetails = (props: React.SVGProps<SVGGElement>) => (
       cy="1500"
       rx="250"
       ry="150"
-      fill="#ff8a8a"
+      fill="var(--ac-feature-color, #ff8a8a)"
       opacity="0.4"
     />
     {/* Right Blush */}
@@ -17,7 +17,7 @@ export const BlushDetails = (props: React.SVGProps<SVGGElement>) => (
       cy="1500"
       rx="250"
       ry="150"
-      fill="#ff8a8a"
+      fill="var(--ac-feature-color, #ff8a8a)"
       opacity="0.4"
     />
   </g>

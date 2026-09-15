@@ -1,7 +1,7 @@
 import React from "react";
 
 export const FrecklesDetails = (props: React.SVGProps<SVGGElement>) => (
-  <g {...props} fill="#b08d6a" opacity="0.6">
+  <g {...props} fill="var(--ac-feature-color, #b08d6a)" opacity="0.6">
     {/* Left Freckles */}
     <circle cx="550" cy="1400" r="40" />
     <circle cx="700" cy="1450" r="35" />

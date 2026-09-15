@@ -1,19 +1,25 @@
+import type { ComponentType, SVGProps } from "react";
 import type { EyebrowsType } from "@acandrade/ac-bot-avatar-core";
-import React from "react";
-import { NeutralEyebrows } from "./neutral";
 import { AngryEyebrows } from "./angry";
-import { SadEyebrows } from "./sad";
-import { WorriedEyebrows } from "./worried";
+import { ConcernedEyebrows } from "./concerned";
+import { NeutralEyebrows } from "./neutral";
 import { RaisedEyebrows } from "./raised";
+import { SadEyebrows } from "./sad";
+import { UnibrowEyebrows } from "./unibrow";
+import { UpDownEyebrows } from "./up_down";
+import { WorriedEyebrows } from "./worried";
 
 export const eyebrowsMap: Record<
   EyebrowsType,
-  React.ComponentType<React.SVGProps<SVGGElement>>
+  ComponentType<SVGProps<SVGGElement>>
 > = {
-  normal: NeutralEyebrows,
   angry: AngryEyebrows,
-  sad: SadEyebrows,
-  worried: WorriedEyebrows,
+  concerned: ConcernedEyebrows,
+  normal: NeutralEyebrows,
   raised: RaisedEyebrows,
+  sad: SadEyebrows,
+  unibrow: UnibrowEyebrows,
+  up_down: UpDownEyebrows,
+  worried: WorriedEyebrows,
   none: () => null,
 };

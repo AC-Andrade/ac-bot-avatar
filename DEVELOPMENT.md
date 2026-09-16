@@ -1,76 +1,52 @@
-# Guia de Desenvolvimento — ac-bot-avatar
+# Desenvolvimento
 
-Este guia explica como trabalhar no projeto e testar as bibliotecas localmente.
-
-## Scripts Principais (Raiz)
-
-O projeto usa **Turborepo** para gerenciar as tarefas em todos os pacotes simultaneamente.
-
-- `yarn build`: Compila todos os pacotes.
-- `yarn test`: Executa os testes de todos os pacotes.
-- `yarn dev`: Inicia o modo watch em todos os pacotes.
-- `yarn pack`: Gera os arquivos `.tgz` de todos os pacotes em suas respectivas pastas `dist`.
-
----
-
-## Testando Pacotes Localmente
-
-### 1. Método via Tarball (Recomendado para CI/CD)
-
-Este método é o mais fiel ao que será publicado no NPM.
-
-1.  **Gerar os pacotes**:
-
-    ```bash
-    yarn pack
-    ```
-
-    Isso criará arquivos `.tgz` dentro de `packages/*/`.
-
-2.  **Instalar no projeto de teste**:
-    No seu projeto externo, aponte para o arquivo gerado:
-    ```bash
-    yarn add ../caminho/para/ac-bot-avatar/packages/react/acandrade-ac-bot-avatar-react-1.0.0.tgz
-    ```
-
-### 2. Método via Yalc (Recomendado para Dev)
-
-Para evitar problemas de links simbólicos e depêndencias duplicadas no React, use o [yalc](https://github.com/whitecolor/yalc).
-
-1.  **Instalar yalc globalmente**:
-
-    ```bash
-    npm install -g yalc
-    ```
-
-2.  **Publicar localmente**:
-    Você pode usar o Turbo para publicar todos com yalc (se configurar o script):
-
-    ```bash
-    # Manualmente em cada pasta relevante
-    cd packages/react && yalc publish
-    ```
-
-3.  **Consumir**:
-    No seu projeto de teste:
-    ```bash
-    yalc add @acandrade/ac-bot-avatar-react
-    ```
-
----
-
-## Estrutura do Projeto
-
-- `packages/assets`: SVGs e recursos brutos.
-- `packages/utils`: Lógica de cores, hash e geradores.
-- `packages/core`: Tipagens e lógica central de dados.
-- `packages/react`: Componentes prontos para uso em React.
-
-## Publicação Oficial
-
-A publicação ocorre automaticamente via GitHub Actions quando uma tag `v*` é enviada:
+## Preparação
 
 ```bash
-git tag v1.0.0
-git push origin v1.0.0
+yarn install --frozen-lockfile
 ```
+
+O projeto usa Yarn 1 Workspaces e Turborepo. TypeScript, ferramentas de teste e lint são dependências declaradas na raiz; nenhuma instalação global é necessária.
+
+## Comandos
+
+| Comando                | Finalidade                                                 |
+| ---------------------- | ---------------------------------------------------------- |
+| `yarn clean`           | Remove `dist` e estado incremental de todos os pacotes     |
+| `yarn build`           | Faz build limpo em ESM, CommonJS, tipos e source maps      |
+| `yarn typecheck`       | Verifica pacotes e arquivos de teste                       |
+| `yarn lint`            | Executa ESLint para TypeScript e React                     |
+| `yarn format:check`    | Confere Prettier sem alterar arquivos                      |
+| `yarn test`            | Executa Vitest nos quatro pacotes                          |
+| `yarn generate:assets` | Regenera componentes a partir dos SVGs canônicos           |
+| `yarn check:assets`    | Falha se os arquivos gerados estiverem desatualizados      |
+| `yarn gallery`         | Gera `docs/gallery/index.html` em 32, 64 e 128 px          |
+| `yarn test:visual`     | Gera a galeria e executa a regressão visual com Playwright |
+| `yarn pack:check`      | Valida e consome os quatro tarballs em ESM e CommonJS      |
+| `yarn size:check`      | Bloqueia aumento superior a 10% da linha de base           |
+| `yarn quality`         | Executa todos os checks publicáveis                        |
+
+## Assets
+
+Os SVGs em `packages/assets/svgs` são a fonte canônica versionada. O gerador único remove metadados, IDs estáticos e formas invisíveis, e atualiza componentes, índices e registros de forma determinística. Nas frutas, ele também garante que a base termine no visor escuro e não carregue olhos ou boca embutidos. Depois de alterar um SVG:
+
+```bash
+yarn generate:assets
+yarn check:assets
+```
+
+Não edite manualmente os arquivos de olhos, bocas e frutas gerados; alterações manuais serão detectadas pelo check.
+
+## Compatibilidade determinística
+
+`generationVersion="v1"` congela o algoritmo publicado na 1.0.3. Mudanças em arrays, ordem de chamadas do PRNG ou paletas alteram avatares persistidos e exigem uma nova `generationVersion`. Novos assets podem ser selecionados explicitamente sem entrar no sorteio v1.
+
+## Publicação
+
+A publicação é acionada somente por uma tag `vX.Y.Z`. A versão da tag deve ser idêntica à versão dos quatro `package.json`. O workflow executa todos os checks e publica, nesta ordem:
+
+1. `core`
+2. `utils` e `assets`
+3. `react`
+
+Os tarballs são validados antes do `npm publish --provenance`. Não publique manualmente com `npm publish --workspaces`, pois isso não garante a ordem das dependências internas.

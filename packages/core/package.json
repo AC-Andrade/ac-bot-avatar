@@ -1,31 +1,51 @@
 {
-    "name": "@acandrade/ac-bot-avatar-core",
-    "version": "1.0.3",
-    "description": "Core types and constants for AC Bot Avatar",
-    "keywords": [
-        "typescript",
-        "avatar",
-        "bot",
-        "types"
-    ],
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-        "build": "tsc",
-        "test": "vitest run --passWithNoTests",
-        "pack": "npm pack"
+  "name": "@acandrade/ac-bot-avatar-core",
+  "version": "1.1.0",
+  "description": "Framework-independent types, catalogs and contracts for AC Bot Avatar",
+  "type": "module",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.cjs"
     },
-    "files": [
-        "dist"
-    ],
-    "dependencies": {},
-    "peerDependencies": {
-        "react": ">=16"
-    },
-    "devDependencies": {
-        "@types/react": ">=16"
-    },
-    "publishConfig": {
-        "access": "public"
-    }
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "keywords": [
+    "typescript",
+    "avatar",
+    "bot",
+    "types"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-package.mjs",
+    "typecheck": "tsc --build --pretty false",
+    "test": "vitest run",
+    "pack": "npm pack"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AC-Andrade/ac-bot-avatar.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://acbot.dev",
+  "bugs": {
+    "url": "https://github.com/AC-Andrade/ac-bot-avatar/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  }
 }

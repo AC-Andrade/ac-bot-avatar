@@ -1,49 +1,19 @@
 # @acandrade/ac-bot-avatar-core
 
-Core type definitions and centralized constants for the AC Bot Avatar library.
-
-## Installation
+Contratos de domínio e catálogos readonly do AC Bot Avatar, sem dependência de React.
 
 ```bash
 yarn add @acandrade/ac-bot-avatar-core
 ```
 
-# or
+```ts
+import { EYE_TYPES, ACCESSORY_TYPES } from "@acandrade/ac-bot-avatar-core";
+import type { AvatarConfig, EyeType } from "@acandrade/ac-bot-avatar-core";
 
-```bash
-npm i @acandrade/ac-bot-avatar-core
+const eye: EyeType = "sunglasses";
+const config: AvatarConfig = { eye, accessory: "stars", variant: "robot" };
 ```
 
-## Usage
+Props de componentes React devem ser importadas de `@acandrade/ac-bot-avatar-react`. Os aliases históricos permanecem depreciados durante a série 1.x.
 
-### Using Types
-
-Ideal for building wrappers or custom implementations using the official types.
-
-```typescript
-import type {
-  ACBotAvatarProps,
-  EyeType,
-  MouthType,
-} from "@acandrade/ac-bot-avatar-core";
-
-const myProps: ACBotAvatarProps = {
-  size: 40,
-  variant: "face",
-};
-```
-
-## Features
-
-- **Strict Typing**: Full TypeScript support for all avatar variations.
-- **Centralized Specs**: The single source of truth for eye and mouth types.
-- **Zero Dependencies**: Purely type definitions and constants.
-
-## Keywords
-
-- types
-- typescript
-- core
-- interfaces
-- definitions
-- types-package
+[MIT](./LICENSE)

@@ -1,0 +1,21 @@
+{
+  "allowedIncreasePercent": 10,
+  "packages": {
+    "core": {
+      "baselinePackedBytes": 5958,
+      "baselineUnpackedBytes": 22836
+    },
+    "utils": {
+      "baselinePackedBytes": 30926,
+      "baselineUnpackedBytes": 151915
+    },
+    "assets": {
+      "baselinePackedBytes": 441888,
+      "baselineUnpackedBytes": 1817864
+    },
+    "react": {
+      "baselinePackedBytes": 60576,
+      "baselineUnpackedBytes": 312789
+    }
+  }
+}

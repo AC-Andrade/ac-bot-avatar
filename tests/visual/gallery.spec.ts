@@ -286,5 +286,6 @@ test("renders every asset at 32, 64 and 128 px without layout clipping", async (
     fullPage: true,
     animations: "disabled",
     maxDiffPixelRatio: 0.001,
+    stylePath: resolve("tests", "visual", "gallery.screenshot.css"),
   });
 });

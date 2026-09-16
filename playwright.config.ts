@@ -9,7 +9,6 @@ export default defineConfig({
   snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}{ext}",
   use: {
     browserName: "chromium",
-    channel: process.env.CI ? undefined : "chrome",
     viewport: { width: 1440, height: 1000 },
   },
 });

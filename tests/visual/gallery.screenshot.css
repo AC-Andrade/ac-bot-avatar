@@ -1,0 +1,28 @@
+/*
+ * Keep the pixel baseline focused on the generated SVG assets. Text rendering
+ * varies across operating systems even when Playwright uses the same browser.
+ */
+header,
+.section-heading,
+.card > strong,
+.card > span {
+  display: none !important;
+}
+
+section {
+  margin-top: 32px !important;
+}
+
+section:first-of-type {
+  margin-top: 0 !important;
+}
+
+.card {
+  height: 180px !important;
+  min-height: 180px !important;
+}
+
+.stage {
+  height: 132px !important;
+  min-height: 132px !important;
+}

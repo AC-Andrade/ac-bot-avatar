@@ -25,7 +25,9 @@
     "check:assets": "node packages/assets/scripts/clean-fruit-svgs.mjs --check && node packages/assets/scripts/convert-svgs.mjs --check",
     "size:check": "node scripts/check-package-size.mjs",
     "security:audit": "yarn audit --level high",
-    "security:snyk": "snyk code test --severity-threshold=high",
+    "security:snyk": "yarn security:snyk:dependencies",
+    "security:snyk:dependencies": "snyk test --all-projects --severity-threshold=high",
+    "security:snyk:code": "snyk code test --severity-threshold=high",
     "pack": "turbo run pack",
     "pack:check": "node scripts/pack-check.mjs",
     "quality": "yarn check:assets && yarn format:check && yarn lint && yarn typecheck && yarn test && yarn build && yarn pack:check && yarn size:check"

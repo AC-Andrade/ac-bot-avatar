@@ -36,7 +36,7 @@ jobs:
       - name: Audit runtime dependencies
         run: yarn security:audit
 
-      - name: Snyk Code
+      - name: Snyk Open Source dependencies
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
@@ -45,6 +45,16 @@ jobs:
             exit 1
           fi
           yarn security:snyk
+
+      - name: Snyk Code (optional)
+        if: ${{ vars.SNYK_CODE_ENABLED == 'true' }}
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: yarn security:snyk:code
+
+      - name: Snyk Code status
+        if: ${{ vars.SNYK_CODE_ENABLED != 'true' }}
+        run: echo "Snyk Code is disabled. Set SNYK_CODE_ENABLED=true when the organization plan supports it."
 
       - name: Publish core
         run: npm publish --access public --provenance

@@ -34,8 +34,4 @@ yarn-error.log*
 # local package verification
 .npm-cache
 .pack-check
-.agents/*
-.specs/*
-SECURITY.md
-docs/*
 ac-bot-avatar.code-workspace
